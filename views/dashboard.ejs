@@ -1,0 +1,40 @@
+<%- include('layouts/main_header'); %>
+<h6>Dashboard</h6>
+<h3>Welcome <%= name %></h3>
+<p>Here are your stories</p>
+<% if (stories) { %>
+    <table class="striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% stories.forEach( el => { %>
+                <tr>
+                    <td><a href="/stories/<%= el._id %>"><%= el.title %></a></td>
+                    <td><%= helper.formatDate(el.createdAt, 'MMMM Do YYYY, h:mm:ss a') %></td>
+                    <td><span class="dash-status"><%= el.status %></span></td>
+                    <td>
+                        <a href="/stories/edit/<%= el._id %>" class="btn btn-float">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <form action="/stories/<%= el._id %>" method="POST" id="delete-form">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn red">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            <% }) %>  
+        </tbody>
+    </table>
+
+<% }else { %>
+    <p>You have not created any stories</p>
+<% } %>
+<%- include('layouts/main_footer'); %>
